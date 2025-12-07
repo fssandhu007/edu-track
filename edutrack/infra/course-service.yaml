@@ -31,12 +31,9 @@ spec:
                   name: edutrack-config
                   key: NODE_ENV
             - name: DB_HOST
-              value: "127.0.0.1"
+              value: "34.59.66.224"
             - name: DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: db-credentials
-                  key: DB_PORT
+              value: "5432"
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
@@ -71,29 +68,7 @@ spec:
               port: 3002
             initialDelaySeconds: 5
             periodSeconds: 10
-        - name: cloud-sql-proxy
-          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.1.0
-          args:
-          - "--structured-logs"
-          - "--port=5432"
-          - "sincere-tape-471709-e5:us-central1:edutrack-postgres"
-          volumeMounts:
-            - name: cloudsql-sa
-              mountPath: /secrets
-              readOnly: true
-          securityContext:
-            runAsNonRoot: true
-          resources:
-            requests:
-              memory: "32Mi"
-              cpu: "10m"
-            limits:
-              memory: "64Mi"
-              cpu: "50m"
-      volumes:
-        - name: cloudsql-sa
-          secret:
-            secretName: cloudsql-sa-key
+
 ---
 apiVersion: v1
 kind: Service

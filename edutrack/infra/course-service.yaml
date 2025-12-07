@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: course-service
-          image: gcr.io/PROJECT_ID/course-service:latest
+          image: gcr.io/sincere-tape-471709-e5/course-service:latest
           ports:
             - containerPort: 3002
           env:

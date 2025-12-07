@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: student-service
-          image: gcr.io/PROJECT_ID/student-service:latest
+          image: gcr.io/sincere-tape-471709-e5/student-service:latest
           ports:
             - containerPort: 3001
           env:

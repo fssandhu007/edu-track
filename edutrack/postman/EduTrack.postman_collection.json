@@ -1,0 +1,593 @@
+{
+    "info": {
+        "_postman_id": "edutrack-collection",
+        "name": "EduTrack API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Student Service",
+            "item": [
+                {
+                    "name": "Health Check",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{student_service_url}}/health",
+                            "host": [
+                                "{{student_service_url}}"
+                            ],
+                            "path": [
+                                "health"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get All Students",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{student_service_url}}/api/students?page=1&limit=10",
+                            "host": [
+                                "{{student_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "students"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "search",
+                                    "value": "",
+                                    "disabled": true
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Student by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{student_service_url}}/api/students/:id",
+                            "host": [
+                                "{{student_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "students",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Student",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"john.doe@example.com\",\n    \"full_name\": \"John Doe\",\n    \"phone\": \"1234567890\",\n    \"bio\": \"Computer Science student\",\n    \"profile_image_url\": \"https://example.com/avatar.jpg\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{student_service_url}}/api/students",
+                            "host": [
+                                "{{student_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "students"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Student",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"full_name\": \"John Updated\",\n    \"bio\": \"Updated bio\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{student_service_url}}/api/students/:id",
+                            "host": [
+                                "{{student_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "students",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Student",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{student_service_url}}/api/students/:id",
+                            "host": [
+                                "{{student_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "students",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Course Service",
+            "item": [
+                {
+                    "name": "Health Check",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{course_service_url}}/health",
+                            "host": [
+                                "{{course_service_url}}"
+                            ],
+                            "path": [
+                                "health"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get All Courses",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{course_service_url}}/api/courses?page=1&limit=10",
+                            "host": [
+                                "{{course_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "courses"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "category",
+                                    "value": "",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "level",
+                                    "value": "",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "search",
+                                    "value": "",
+                                    "disabled": true
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Course by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{course_service_url}}/api/courses/:id",
+                            "host": [
+                                "{{course_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "courses",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Course",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"course_code\": \"CS101\",\n    \"title\": \"Introduction to Computer Science\",\n    \"description\": \"Basic concepts of programming\",\n    \"instructor_name\": \"Prof. Smith\",\n    \"max_capacity\": 50,\n    \"duration_weeks\": 12,\n    \"price\": 199.99,\n    \"category\": \"Computer Science\",\n    \"level\": \"Beginner\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{course_service_url}}/api/courses",
+                            "host": [
+                                "{{course_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "courses"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Course",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Intro to CS (Updated)\",\n    \"max_capacity\": 60\n}"
+                        },
+                        "url": {
+                            "raw": "{{course_service_url}}/api/courses/:id",
+                            "host": [
+                                "{{course_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "courses",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Enrollment Count (Internal)",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"increment\": true\n}"
+                        },
+                        "url": {
+                            "raw": "{{course_service_url}}/api/courses/:id/enrollment",
+                            "host": [
+                                "{{course_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "courses",
+                                ":id",
+                                "enrollment"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Course",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{course_service_url}}/api/courses/:id",
+                            "host": [
+                                "{{course_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "courses",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Enrollment Service",
+            "item": [
+                {
+                    "name": "Health Check",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{enrollment_service_url}}/health",
+                            "host": [
+                                "{{enrollment_service_url}}"
+                            ],
+                            "path": [
+                                "health"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get All Enrollments",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{enrollment_service_url}}/api/enrollments?page=1&limit=10",
+                            "host": [
+                                "{{enrollment_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "student_id",
+                                    "value": "",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "course_id",
+                                    "value": "",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "status",
+                                    "value": "",
+                                    "disabled": true
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Enrollment by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{enrollment_service_url}}/api/enrollments/:id",
+                            "host": [
+                                "{{enrollment_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Enrollments by Student",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{enrollment_service_url}}/api/enrollments/student/:studentId",
+                            "host": [
+                                "{{enrollment_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments",
+                                "student",
+                                ":studentId"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "studentId",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Enrollment History",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{enrollment_service_url}}/api/enrollments/:id/history",
+                            "host": [
+                                "{{enrollment_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments",
+                                ":id",
+                                "history"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Enrollment",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"student_id\": 1,\n    \"course_id\": 1\n}"
+                        },
+                        "url": {
+                            "raw": "{{enrollment_service_url}}/api/enrollments",
+                            "host": [
+                                "{{enrollment_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Enrollment",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"completion_status\": \"Completed\",\n    \"progress_percentage\": 100,\n    \"certificate_issued\": true\n}"
+                        },
+                        "url": {
+                            "raw": "{{enrollment_service_url}}/api/enrollments/:id",
+                            "host": [
+                                "{{enrollment_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Enrollment",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{enrollment_service_url}}/api/enrollments/:id",
+                            "host": [
+                                "{{enrollment_service_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

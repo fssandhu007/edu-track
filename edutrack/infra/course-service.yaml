@@ -74,9 +74,9 @@ spec:
         - name: cloud-sql-proxy
           image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.1.0
           args:
-            - "/cloud_sql_proxy"
-            - "-instances=sincere-tape-471709-e5:us-central1:edutrack-postgres=tcp:5432"
-            - "-credential_file=/secrets/key.json"
+          - "--structured-logs"
+          - "--port=5432"
+          - "sincere-tape-471709-e5:us-central1:edutrack-postgres"
           volumeMounts:
             - name: cloudsql-sa
               mountPath: /secrets

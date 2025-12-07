@@ -78,7 +78,7 @@ metadata:
   labels:
     app: course-service
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - port: 3002
       targetPort: 3002

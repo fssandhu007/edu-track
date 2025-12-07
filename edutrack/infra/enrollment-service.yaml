@@ -88,7 +88,7 @@ metadata:
   labels:
     app: enrollment-service
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - port: 3003
       targetPort: 3003

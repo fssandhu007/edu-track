@@ -78,7 +78,7 @@ metadata:
   labels:
     app: student-service
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - port: 3001
       targetPort: 3001

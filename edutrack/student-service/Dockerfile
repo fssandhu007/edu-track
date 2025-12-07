@@ -10,6 +10,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install --omit=dev
 
+# Copy database scripts
+COPY db/ ./db/
+
 # Copy source code
 COPY src/ ./src/
 

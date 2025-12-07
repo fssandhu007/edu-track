@@ -1,36 +1,44 @@
-import { db } from "@/lib/db"
 import { type NextRequest, NextResponse } from "next/server"
+
+const COURSE_SERVICE_URL = process.env.COURSE_SERVICE_URL || "http://localhost:3002"
 
 // GET all courses
 export async function GET(request: NextRequest) {
   try {
-    const result = await db.query("SELECT * FROM courses ORDER BY created_at DESC")
-    return NextResponse.json(result.rows)
+    // Pass query parameters
+    const searchParams = request.nextUrl.searchParams.toString()
+    const url = `${COURSE_SERVICE_URL}/api/courses?${searchParams}`
+
+    const response = await fetch(url)
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ error: "Service Error" }))
+      return NextResponse.json(error, { status: response.status })
+    }
+
+    const data = await response.json()
+    return NextResponse.json(data.data || data)
   } catch (error) {
-    return NextResponse.json({ error: "Failed to fetch courses" }, { status: 500 })
+    console.error("Course Service Error:", error)
+    return NextResponse.json({ error: "Failed to fetch courses from service" }, { status: 500 })
   }
 }
 
 // POST new course
 export async function POST(request: NextRequest) {
   try {
-    const { course_code, title, description, instructor_name, max_capacity, duration_weeks, price, category, level } =
-      await request.json()
+    const body = await request.json()
 
-    if (!course_code || !title) {
-      return NextResponse.json({ error: "Course code and title are required" }, { status: 400 })
-    }
+    const response = await fetch(`${COURSE_SERVICE_URL}/api/courses`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    })
 
-    const result = await db.query(
-      "INSERT INTO courses (course_code, title, description, instructor_name, max_capacity, duration_weeks, price, category, level) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
-      [course_code, title, description, instructor_name, max_capacity, duration_weeks, price, category, level],
-    )
-
-    return NextResponse.json(result.rows[0], { status: 201 })
-  } catch (error: any) {
-    if (error.message.includes("unique constraint")) {
-      return NextResponse.json({ error: "Course code already exists" }, { status: 409 })
-    }
+    const data = await response.json()
+    return NextResponse.json(data, { status: response.status })
+  } catch (error) {
+    console.error("Course Service Error:", error)
     return NextResponse.json({ error: "Failed to create course" }, { status: 500 })
   }
 }

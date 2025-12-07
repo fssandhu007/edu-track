@@ -1,35 +1,43 @@
-import { db } from "@/lib/db"
 import { type NextRequest, NextResponse } from "next/server"
+
+const STUDENT_SERVICE_URL = process.env.STUDENT_SERVICE_URL || "http://localhost:3001"
 
 // GET all students
 export async function GET(request: NextRequest) {
   try {
-    const result = await db.query("SELECT * FROM students ORDER BY created_at DESC")
-    return NextResponse.json(result.rows)
+    const response = await fetch(`${STUDENT_SERVICE_URL}/api/students`)
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ error: "Service Error" }))
+      return NextResponse.json(error, { status: response.status })
+    }
+
+    const data = await response.json()
+    // The service returns { data: [...], pagination: {...} } or just [...] depending on implementation.
+    // Based on previous checks, student-service returns { data: ... }
+    return NextResponse.json(data.data || data)
   } catch (error) {
-    return NextResponse.json({ error: "Failed to fetch students" }, { status: 500 })
+    console.error("Student Service Error:", error)
+    return NextResponse.json({ error: "Failed to fetch students from service" }, { status: 500 })
   }
 }
 
 // POST new student
 export async function POST(request: NextRequest) {
   try {
-    const { email, full_name, phone, bio } = await request.json()
+    const body = await request.json()
 
-    if (!email || !full_name) {
-      return NextResponse.json({ error: "Email and full name are required" }, { status: 400 })
-    }
+    const response = await fetch(`${STUDENT_SERVICE_URL}/api/students`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    })
 
-    const result = await db.query(
-      "INSERT INTO students (email, full_name, phone, bio) VALUES ($1, $2, $3, $4) RETURNING *",
-      [email, full_name, phone, bio],
-    )
+    const data = await response.json()
+    return NextResponse.json(data, { status: response.status })
 
-    return NextResponse.json(result.rows[0], { status: 201 })
-  } catch (error: any) {
-    if (error.message.includes("unique constraint")) {
-      return NextResponse.json({ error: "Email already exists" }, { status: 409 })
-    }
+  } catch (error) {
+    console.error("Student Service Error:", error)
     return NextResponse.json({ error: "Failed to create student" }, { status: 500 })
   }
 }

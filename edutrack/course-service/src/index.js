@@ -2,6 +2,8 @@ const express = require("express")
 const cors = require("cors")
 const helmet = require("helmet")
 const { Pool } = require("pg")
+const fs = require("fs")
+const path = require("path")
 
 const app = express()
 const PORT = process.env.PORT || 3002
@@ -288,9 +290,28 @@ app.use((req, res) => {
   res.status(404).json({ error: "Not found", path: req.path })
 })
 
+// Initialize Database
+async function initializeDatabase() {
+  try {
+    const initSqlPath = path.join(__dirname, "../db/init.sql")
+    if (fs.existsSync(initSqlPath)) {
+      console.log("Found init.sql, verifying database schema...")
+      const sql = fs.readFileSync(initSqlPath, "utf8")
+      await pool.query(sql)
+      console.log("Database schema verification completed.")
+    } else {
+      console.log("No init.sql found, skipping schema verification.")
+    }
+  } catch (error) {
+    console.error("Failed to initialize database:", error)
+  }
+}
+
 // Start server
-app.listen(PORT, () => {
-  console.log(`Course Service running on port ${PORT}`)
+initializeDatabase().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Course Service running on port ${PORT}`)
+  })
 })
 
 module.exports = app

@@ -1,0 +1,109 @@
+# Docker Compose for local development and testing
+version: "3.8"
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: edutrack-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_MULTIPLE_DATABASES: edutrack_students,edutrack_courses,edutrack_enrollments
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-multiple-dbs.sh:/docker-entrypoint-initdb.d/init-multiple-dbs.sh
+      - ./student-service/db/init.sql:/docker-entrypoint-initdb.d/01-students.sql
+      - ./course-service/db/init.sql:/docker-entrypoint-initdb.d/02-courses.sql
+      - ./enrollment-service/db/init.sql:/docker-entrypoint-initdb.d/03-enrollments.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - edutrack-network
+
+  # Student Service
+  student-service:
+    build:
+      context: ./student-service
+      dockerfile: Dockerfile
+    container_name: student-service
+    environment:
+      PORT: 3001
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: edutrack_students
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      NODE_ENV: development
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - edutrack-network
+    restart: unless-stopped
+
+  # Course Service
+  course-service:
+    build:
+      context: ./course-service
+      dockerfile: Dockerfile
+    container_name: course-service
+    environment:
+      PORT: 3002
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: edutrack_courses
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      NODE_ENV: development
+    ports:
+      - "3002:3002"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - edutrack-network
+    restart: unless-stopped
+
+  # Enrollment Service
+  enrollment-service:
+    build:
+      context: ./enrollment-service
+      dockerfile: Dockerfile
+    container_name: enrollment-service
+    environment:
+      PORT: 3003
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: edutrack_enrollments
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      NODE_ENV: development
+      STUDENT_SERVICE_URL: http://student-service:3001
+      COURSE_SERVICE_URL: http://course-service:3002
+    ports:
+      - "3003:3003"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      student-service:
+        condition: service_started
+      course-service:
+        condition: service_started
+    networks:
+      - edutrack-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  edutrack-network:
+    driver: bridge

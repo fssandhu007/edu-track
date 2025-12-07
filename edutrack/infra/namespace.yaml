@@ -1,0 +1,8 @@
+# Kubernetes Namespace for EduTrack
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: edutrack
+  labels:
+    app: edutrack
+    environment: production

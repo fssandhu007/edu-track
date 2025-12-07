@@ -30,10 +30,7 @@ spec:
                   name: edutrack-config
                   key: NODE_ENV
             - name: DB_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: db-credentials
-                  key: DB_HOST
+              value: "127.0.0.1"
             - name: DB_PORT
               valueFrom:
                 secretKeyRef:
@@ -73,6 +70,18 @@ spec:
               port: 3001
             initialDelaySeconds: 5
             periodSeconds: 10
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.1.0
+          args:
+            - "--structured-logs"
+            - "--port=5432"
+            - "sincere-tape-471709-e5:us-central1:edutrack-postgres"
+          securityContext:
+            runAsNonRoot: true
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
 ---
 apiVersion: v1
 kind: Service

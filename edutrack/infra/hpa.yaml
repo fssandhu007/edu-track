@@ -9,7 +9,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: student-service
-  minReplicas: 2
+  minReplicas: 1
   maxReplicas: 10
   metrics:
     - type: Resource
@@ -35,7 +35,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: course-service
-  minReplicas: 2
+  minReplicas: 1
   maxReplicas: 10
   metrics:
     - type: Resource
@@ -61,7 +61,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: enrollment-service
-  minReplicas: 2
+  minReplicas: 1
   maxReplicas: 10
   metrics:
     - type: Resource

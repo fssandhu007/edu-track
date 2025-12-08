@@ -1,4 +1,5 @@
 # EduTrack: Microservices Learning Platform
+<img width="1920" height="677" alt="image" src="https://github.com/user-attachments/assets/cb0f5edd-9228-4abc-8928-7fe747ee5490" />
 
 EduTrack is a cloud-native microservices application deployed on Google Kubernetes Engine (GKE). It allows students to manage profiles, browse courses, and handle enrollments through a distributed system architecture.
 

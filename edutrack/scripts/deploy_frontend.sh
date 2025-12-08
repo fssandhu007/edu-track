@@ -21,10 +21,13 @@ docker push $IMAGE_NAME
 # 3. Apply Kubernetes Manifest
 echo "Applying Kubernetes Manifest..."
 # Go back to edutrack folder for kubectl
-cd h:/DARPA2/edu-track/edutrack || exit 
+cd edutrack || exit 
 
 # Note: The infra file is likely in edutrack/infra
 kubectl apply -f infra/frontend.yaml
+
+# Force restart to pick up change if tag is "latest"
+kubectl rollout restart deployment/frontend -n edutrack
 
 echo "--------------------------------------------------"
 echo "Frontend Deployed!"

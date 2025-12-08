@@ -94,7 +94,7 @@ export function CoursesTable() {
                 <td className="py-3 px-4">
                   {course.enrolled_count}/{course.max_capacity}
                 </td>
-                <td className="py-3 px-4">${course.price.toFixed(2)}</td>
+                <td className="py-3 px-4">${course.price}</td>
                 <td className="py-3 px-4">
                   <div className="flex gap-2">
                     <button className="p-2 hover:bg-primary/10 rounded-lg transition-colors">

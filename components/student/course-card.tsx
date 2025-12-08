@@ -82,20 +82,19 @@ export function CourseCard({
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <DollarSign className="w-4 h-4" />
-            <span>${price.toFixed(2)}</span>
+            <span>${price}</span>
           </div>
         </div>
 
         <button
           onClick={handleEnroll}
           disabled={enrolling || isFull}
-          className={`w-full py-2 rounded-lg font-medium transition-colors ${
-            isFull
+          className={`w-full py-2 rounded-lg font-medium transition-colors ${isFull
               ? "bg-muted text-muted-foreground cursor-not-allowed"
               : enrolling
                 ? "bg-primary text-primary-foreground opacity-50"
                 : "bg-primary text-primary-foreground hover:opacity-90"
-          }`}
+            }`}
         >
           {isFull ? "Course Full" : enrolling ? "Enrolling..." : "Enroll Now"}
         </button>
